@@ -75,3 +75,14 @@ Requisitos para usar un motor nuevo:
 - Anotar en la respuesta qué motor se usó, por qué se saltó y qué queda pendiente.
 - En la siguiente tarea, volver a comprobar el saldo del motor principal (paso 1);
   si se ha recargado, volver a él. Repetir el ciclo cada vez.
+
+## 4. Ahorrar el saldo de Claude y seguir trabajando
+Claude no puede cambiar por sí mismo el modelo que ejecuta la sesión. Lo que sí hace:
+- **Delegar en modelos más baratos:** tareas mecánicas (búsquedas amplias, resúmenes, traducciones, comprobaciones) van a subagentes con `model: "haiku"` o `"sonnet"`. El modelo principal se reserva para decisiones y código delicado.
+- **Gastar poco contexto:** Graphify antes de leer archivos, búsquedas concretas, cambios agrupados en un solo PR, sin reescribir archivos enteros.
+- **Dejar siempre `handoff.md` al día** (objetivo, estado, cambios, intentos fallidos, próximos pasos). Así cualquier sesión nueva, o cualquier otra IA (ChatGPT, Gemini, Copilot), continúa sin perder nada.
+- **Avisar al usuario** cuando una tarea sea larga, para que pueda cambiar de modelo él mismo.
+
+Lo que hace el usuario (Claude no puede hacerlo por él):
+- `/model` en Claude Code para cambiar a un modelo más barato (Sonnet o Haiku) cuando quede poco saldo.
+- Si se agota la cuota de Claude: abrir otra herramienta (ChatGPT, Gemini, Copilot), decirle "Lee handoff.md y continúa desde los próximos pasos" y seguir. Al volver el saldo, la siguiente sesión de Claude lee el mismo `handoff.md`.
