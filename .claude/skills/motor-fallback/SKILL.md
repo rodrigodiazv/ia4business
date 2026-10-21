@@ -86,3 +86,11 @@ Claude no puede cambiar por sí mismo el modelo que ejecuta la sesión. Lo que s
 Lo que hace el usuario (Claude no puede hacerlo por él):
 - `/model` en Claude Code para cambiar a un modelo más barato (Sonnet o Haiku) cuando quede poco saldo.
 - Si se agota la cuota de Claude: abrir otra herramienta (ChatGPT, Gemini, Copilot), decirle "Lee handoff.md y continúa desde los próximos pasos" y seguir. Al volver el saldo, la siguiente sesión de Claude lee el mismo `handoff.md`.
+
+## 5. OmniRoute (solo en el ordenador del usuario)
+Pasarela gratuita (github.com/diegosouzapw/OmniRoute) que reparte las peticiones entre muchos proveedores. No funciona dentro de una sesión de Claude Code en la nube (el proxy la bloquea y el modelo de la sesión no se puede cambiar desde dentro). Uso seguro en local:
+1. Instalar: `npm install -g omniroute` y ejecutar `omniroute` (panel en http://localhost:20128). Verificar los comandos en el README oficial antes de usarlos.
+2. Cambiar la contraseña del panel en el primer arranque (variable `INITIAL_PASSWORD`; si no, queda `CHANGEME`). Escuchar solo en localhost, nunca abrirlo a internet.
+3. Añadir solo proveedores oficiales con claves propias (Anthropic, OpenAI, Google Gemini, Groq…) y respetar sus condiciones. No usar "tokens gratis" de cuentas ajenas ni reventa de suscripciones.
+4. Conectar Claude Code a la pasarela en ese ordenador: `export ANTHROPIC_BASE_URL=http://localhost:20128` (comprobar en la documentación de OmniRoute la ruta exacta y la clave que pide) y abrir `claude`.
+5. No enviar a modelos de terceros secretos ni datos personales de clientes.
